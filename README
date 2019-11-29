@@ -1,0 +1,25 @@
+Instruction for running the code:
+sudo ./run.sh
+
+1. Why do you see a difference in webpage fetch times with short and large router buffers?
+Packets sent between h1 and h2 are buffered in router. If the buffer is too big the wait time will be much longer. In addtion, buffer too large limits TCP congestion control which rely on occasional packet loss.
+
+2. Bufferbloat can occur in other places such as your network interface card (NIC). Check the output of ifconfig eth0 on your VirtualBox VM. What is the (maximum) transmit queue length on the network interface reported by ifconfig? For this queue size, if you assume the queue drains at 100Mb/s, what is the maximum time a packet might wait in the queue before it leaves the NIC?
+txqueuelen:1000 MTU=1500
+1000 packets * 1500 bytes * 8 bits / (100*10^6b/s) = 0.12s
+
+3. How does the RTT reported by ping vary with the queue size? Write a symbolic equation to describe the relation between the two (ignore computation overheads in ping that might affect the final result).
+
+RTT = ~1.75 * qsize
+RTT is directly proportional to qsize
+
+4. Identify and describe two ways to mitigate the bufferbloat problem.
+
+- Use a smaller buffer size. The wait time will be much shorter and TCP congestion control can function well.
+- Send packets at reduced rate from start. This can prevent from filling the buffer, however this will lower network utility.
+
+qsize = 100
+Average: 1.310250, std deviation: 0.620583
+
+qsize = 20
+Average: 0.569364, std deviation: 0.164556

@@ -227,7 +227,7 @@ def bufferbloat():
     # times.  You don't need to plot them.  Just note it in your
     # README and explain.
 
-    with open('./measurements.txt', 'w') as f:
+    with open(os.path.join(args.dir, 'measurements.txt'), 'w') as f:
         f.write("Average: %lf, std deviation: %lf\n" % (helper.avg(stats), helper.stdev(stats)))
 
     stop_tcpprobe()
